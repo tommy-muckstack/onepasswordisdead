@@ -1,3 +1,3 @@
-import { Marketing } from "@/components/Marketing";
-export const metadata = { title: "1PasswordIsDead: features and pricing comparison" };
-export default function Pricing() { return <Marketing />; }
+import { Landing } from "@/components/Landing";
+export const metadata = { title: "Pricing" };
+export default function Pricing() { return <Landing page="pricing" />; }

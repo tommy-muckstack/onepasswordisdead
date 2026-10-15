@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { PricingBody } from "@/components/PricingBody";
+import { pricingCfg } from "@/components/pricingCfg";
 import "@/app/landing.css";
 
 // Home page laid out like 1password.com: tan banner, white nav, dark hero with console screenshot, dark product section,
@@ -17,8 +19,8 @@ const foot: [string, string[]][][] = [
   [["Company", ["About", "We're hiring!", "Press", "Podcast", "Newsletter", "Legal Center", "Trust Center"]], ["Partners", ["Partnerships Overview", "1Password for MSPs", "Password Manager - MSP Edition", "1Password Marketplace", "Affiliate", "For Students"]]],
 ];
 
-export function Landing() {
-  return <div className="op">
+export function Landing({ page }: { page?: "pricing" } = {}) {
+  return <div className={"op" + (page === "pricing" ? " is-pr" : "")}>
     <div className="op-banner"><Link href="/pricing">Zero standing privileges for humans and AI: free, open source. Learn more →</Link><Link href="/login">Sign in</Link></div>
     <header className="op-nav"><Link href="/" className="op-logo"><Logo /></Link>
       <nav><button>Business<Dn /></button><button>Personal<Dn /></button><Link href="/pricing">Developers</Link><button>Partners<Dn /></button><button>Resources<Dn /></button><Link href="/pricing">Pricing</Link></nav>
@@ -32,6 +34,7 @@ export function Landing() {
     <section className="op-gart"><small>2026 INDEPENDENT REVIEW FOR ACCESS MANAGEMENT</small><h2>OnePasswordIsDead named a Leader for SaaS Management Platforms</h2><p>It unifies AI and SaaS discovery, access governance, and token and license spend optimization.</p><div className="op-row"><Link href="/pricing" className="op-pill op-pill--black">Request SaaS Manager demo</Link><Link href="/pricing" className="op-pill op-pill--line">Get the report</Link></div></section>
     <section className="op-story"><div className="op-story__img" aria-hidden /><div className="op-story__logo" aria-hidden><b>ORACLE</b><i>Red Bull</i></div><p className="op-quote">“At an organizational level, this helped impose discipline and clarity on access management across a highly complex, high-velocity engineering environment.”</p><small>Ian Brunton<br />Head of Software Engineering for Aerodynamics</small><Link href="/pricing" className="op-pill op-pill--outline">Read the story</Link></section>
     <section className="op-ctrl"><h2>Bring modern access under control</h2><p>Keep people and AI agents moving with clarity and speed, while control and accountability are built into every action.</p><div className="op-row"><Link href="/pricing" className="op-pill op-pill--white">Talk to sales</Link><Link href="/pricing" className="op-pill op-pill--line op-pill--wl">View plans</Link></div></section>
+    {page === "pricing" && <PricingBody cfg={pricingCfg} />}
     <footer className="op-foot"><span className="op-foot__mark" aria-hidden /><button className="op-lang">English<Dn /></button>
       <div className="op-foot__cols">{foot.map((col, i) => <div key={i}>{col.map(([h, ls]) => <section key={h}><h5>{h}</h5>{ls.map(l => <Link key={l} href="/pricing">{l}</Link>)}</section>)}</div>)}</div>
       <aside className="op-dl"><h5>Downloads</h5>{["macOS", "Windows", "iOS", "Android", "Browser", "Linux", "CLI"].map(l => <Link key={l} href={REPO}>{l}</Link>)}</aside>
