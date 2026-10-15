@@ -1,0 +1,69 @@
+/* 1PasswordIsDead pricing: geometry follows 1password.com/pricing at 1440 and 390. */
+.op .opp{color:#303136;font-family:"IsDead DM Sans",system-ui,sans-serif;font-weight:300;letter-spacing:-.32px;background:#fff;display:block}
+.op .opp *{box-sizing:border-box}
+.op .opp h1,.opp h2,.opp h3,.opp h4,.opp p,.opp ul{margin:0;padding:0}
+.op .opp ul{list-style:none}
+.op .opp-hero{margin:0 96px;padding-top:74px;height:268px;display:flex;align-items:flex-start;gap:24px}
+.op .opp-hero h1{font-size:64px;line-height:70.4px;font-weight:300;letter-spacing:-1.28px;width:571px;margin-top:14px;flex:none}
+.op .opp-sel{height:98px;width:377px;border:2px solid #d7d7db;border-radius:20px;background:#fff;color:#145fe4;font-size:64px;line-height:70.4px;font-weight:300;letter-spacing:-1.28px;display:flex;align-items:center;justify-content:space-between;padding:12px 16px 12px 18px;font-family:inherit;cursor:pointer}
+.op .opp-plans{margin:0 96px}
+.op .opp-plans>div{display:grid;grid-template-columns:repeat(5,1fr);border:2px solid #1d1d21;border-radius:16px;height:568px;overflow:hidden;background:#fff}
+.op .opp-plans article{padding:0 15px;position:relative}
+.op .opp-plans header{padding-top:48px;height:222px}
+.op .opp-plans h2{font-size:16px;line-height:20px;font-weight:300;letter-spacing:0}
+.op .opp-plans h3{font-size:24px;line-height:28.8px;font-weight:400;letter-spacing:-.48px;margin:8px 0 4px}
+.op .opp-plans header p{font-size:16px;line-height:24px}
+.op .opp-btn{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 24px;border-radius:9999px;background:#145fe4;color:#fff;font-size:16px;font-weight:400;letter-spacing:-.32px;white-space:nowrap;text-decoration:none;margin:2px 0}
+.op .opp-plans ul{padding-top:20px}
+.op .opp-plans li{font-size:16px;line-height:24px;margin-bottom:12px}
+.op .opp-aws{margin:48px 96px 0;padding-bottom:0;height:354px}
+.op .opp-aws>h3{font-size:32px;line-height:38.4px;font-weight:300;letter-spacing:-.64px;margin-bottom:32px}
+.op .opp-aws__c{display:grid;grid-template-columns:1fr 1fr;background:#f2f2f3;border-radius:16px;height:284px}
+.op .opp-aws__l{padding:32px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;padding-bottom:42px}
+.op .opp-aws__l>div{padding-top:8px;max-width:373px}
+.op .opp-aws__l h3{font-size:24px;line-height:28.8px;font-weight:400;letter-spacing:-.48px;margin-bottom:24px}
+.op .opp-awsm{display:inline-flex;flex-direction:column;line-height:1;color:#232f3e;height:48px;justify-content:center}
+.op .opp-awsm i{font-style:normal;font-size:11px;letter-spacing:0}.opp-awsm b{font-size:26px;font-weight:700;letter-spacing:-1px;display:inline}.opp-awsm em{font-style:normal;font-size:14px;font-weight:600;letter-spacing:0}
+.op .opp-aws__r{padding:0 32px;display:flex;align-items:center}
+.op .opp-aws__r ul{margin-top:16px;padding-left:16px;list-style:disc}
+.op .opp-aws__r li{line-height:24px}
+.op .opp-unl{margin:24px 24px 0;height:710px;padding:128px 72px 72px}
+.op .opp-unl h2{font-size:64px;line-height:70.4px;font-weight:300;letter-spacing:-1.28px;width:822px;margin-bottom:96px}
+.op .opp-unl>div{display:grid;grid-template-columns:repeat(3,1fr);column-gap:16.5px;row-gap:16px}
+.op .opp-unl article{padding-right:48px;margin-bottom:32px}
+.op .opp-unl h4{font-size:24px;line-height:28.8px;font-weight:400;letter-spacing:-.48px;margin:0}
+.op .opp-unl p{margin-top:24px;font-size:16px;line-height:24px}
+.op .opp-faq{margin:24px;background:#242429;color:#fff;border-radius:25px;padding:128px 72px 72px;height:831px}
+.op .opp-faq h2{font-size:64px;line-height:70.4px;font-weight:300;letter-spacing:-1.28px;margin:0 0 64px;color:#fff}
+.op .opp-faq>div{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;align-items:start}
+.op .opp-faq details{border-bottom:1px solid #fff}
+.op .opp-faq details:first-child{border-top:0}
+.op .opp-faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:0;padding:32px 0;position:relative;align-items:flex-start}
+.op .opp-faq summary::-webkit-details-marker{display:none}
+.op .opp-faq summary h3{font-size:24px;line-height:28.8px;font-weight:400;letter-spacing:-.48px;padding-right:32px;color:#fff}
+.op .opp-faq summary svg{display:block}.op .opp-faq .m{display:none}
+.op .opp-faq details[open] .p{display:none}.op .opp-faq details[open] .m{display:block}
+.op .opp-faq details>div{padding:0 48px 32px 0}.op .opp-faq details p{font-size:16px;line-height:24px;color:#fff}
+.op .opp-faq details[open] summary{padding-bottom:16px}
+.op.is-pr>.opp{display:block}
+@media (max-width:760px){
+  .op .opp-hero{margin:0 24px;height:auto;padding-top:40px;flex-direction:column;gap:16px}
+  .op .opp-hero h1{width:auto;font-size:40px;line-height:44px;letter-spacing:-.8px;margin:0}
+  .op .opp-sel{width:100%;height:64px;font-size:40px;line-height:44px;padding:8px 12px}
+  .op .opp-sel svg{width:32px;height:32px}
+  .op .opp-plans{margin:32px 24px 0}
+  .op .opp-plans>div{grid-template-columns:1fr;height:auto}
+  .op .opp-plans header{height:auto;padding-top:32px;padding-bottom:16px}
+  .op .opp-plans article{padding:0 20px 8px;border-bottom:1px solid #d7d7db}.opp-plans article:last-child{border-bottom:0}
+  .op .opp-plans ul{padding-top:24px}
+  .op .opp-aws{margin:48px 24px 0;height:auto}
+  .op .opp-aws>h3{font-size:28px;line-height:33.6px}
+  .op .opp-aws__c{grid-template-columns:1fr;height:auto}
+  .op .opp-aws__l{padding:24px}.opp-aws__r{padding:0 24px 32px}
+  .op .opp-unl{margin:24px 12px 0;height:auto;padding:64px 12px 32px}
+  .op .opp-unl h2{font-size:40px;line-height:44px;width:auto;margin-bottom:40px;letter-spacing:-.8px}
+  .op .opp-unl>div{grid-template-columns:1fr}
+  .op .opp-faq{margin:24px 12px;height:auto;padding:64px 20px 32px}
+  .op .opp-faq h2{font-size:40px;line-height:44px;letter-spacing:-.8px;margin-bottom:32px}
+  .op .opp-faq>div{grid-template-columns:1fr}
+}
