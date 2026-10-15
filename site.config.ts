@@ -29,6 +29,6 @@ export const site: Site = {
     { title: "Open source", links: [{ label: "GitHub", href: GH }, { label: "Security notes", href: GH + "/blob/main/SECURITY.md" }, { label: "Apache-2.0 license", href: GH + "/blob/main/LICENSE" }] },
     { title: "More IsDead apps", links: [{ label: "NotionIsDead", href: "/notionisdead" }, { label: "LinearIsDead", href: "/linearisdead" }, { label: "AirtableIsDead", href: "/airtableisdead" }, { label: "OtterIsDead", href: "/otterisdead" }] },
   ],
-  trademark: "1PasswordIsDead is an independent open-source project. It is not affiliated with, endorsed by or sponsored by AgileBits Inc. or 1Password. 1Password is a trademark of its owner. This software is experimental and has not been security audited.",
+  trademark: "1PasswordIsDead is an independent open-source project. It is not affiliated with, endorsed by or sponsored by AgileBits Inc. or 1Password. 1Password is a trademark of its owner. This software is experimental and has not been security audited. The hosted copy shares the yourappisdead.com origin with other apps, so a script running on another app on that origin could reach an unlocked vault: for real secrets, self-host it on its own origin (see SECURITY.md).",
   repo: GH,
 };
