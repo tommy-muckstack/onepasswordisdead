@@ -23,10 +23,8 @@ const URL_PROPS = ["$current_url", "$referrer", "$initial_current_url", "$initia
 // Also catch any other URL-ish property posthog-js adds (e.g. $session_entry_*), present or future.
 const isUrlProp = (k: string) => URL_PROPS.includes(k) || /(url|referrer|pathname)$/i.test(k);
 const cleanUrl = (v: unknown) => { if (typeof v !== "string" || !v || v === "$direct") return v; let u = v.split(/[?#]/)[0]!; for (const re of PRIVATE_PATHS) u = u.replace(re, "$1:id"); return u; };
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function scrub(e: any) {
   if (!e?.properties) return e;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const clean = (o: any) => { if (o) for (const k of Object.keys(o)) if (isUrlProp(k)) o[k] = cleanUrl(o[k]); };
   clean(e.properties); clean(e.properties.$set); clean(e.properties.$set_once); clean(e.$set); clean(e.$set_once);
   delete e.properties.title; return e;
