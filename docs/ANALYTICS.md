@@ -11,6 +11,15 @@ OnePasswordIsDead is a password manager. Analytics must never be able to describ
 - The only item property allowed is `item_kind` (`login` | `card` | `note`). Most events carry no properties at all.
 - Autocapture, session replay, heatmaps, dead-click capture, exception autocapture, performance capture and surveys are
   all off in `lib/analytics/posthog.tsx`.
+- `scrub` (posthog-js `before_send`, `lib/analytics/posthog.tsx`) runs on every event:
+  - every URL-like property (`$current_url`, `$referrer`, `$pathname`, `$initial_*`, `$session_entry_*`, and anything else
+    ending in `url` / `referrer` / `pathname`, including inside `$set` / `$set_once`) keeps only origin + path: query strings
+    and hashes are dropped;
+  - `PRIVATE_PATHS` masks everything below `/app/` as `/app/:id` (vault and item ids live only in memory today and never
+    reach the URL; this keeps it that way if routes are ever added);
+  - the page `title` property is deleted.
+- `$pageview` is sent with no hand-built properties; `scrub` cleans what posthog-js adds. `tests/unit/analytics.test.ts`
+  covers query/hash/title stripping, `/app/` masking and the `$session_entry_*` props.
 
 ## Setup
 - `NEXT_PUBLIC_POSTHOG_KEY` (publishable project token) and `NEXT_PUBLIC_POSTHOG_HOST=https://us.posthog.com` are set on

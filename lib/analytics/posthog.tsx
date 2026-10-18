@@ -15,6 +15,23 @@ export const analyticsEnabled = !!KEY;
 // __SURFACE__: which paths (after the basePath) are the working product. Everything else is the marketing site.
 const surfaceOf = (pathname: string): Surface => (/^\/(app)(\/|$)/.test(pathname.slice(BP.length)) ? "app" : "landing");
 
+// Privacy: URL properties keep only origin + path (query strings and hashes can hold user content), path segments matched
+// by PRIVATE_PATHS are masked, and the page title is dropped. Vault and item ids live only in memory today, never in the
+// URL; to stay safe if that changes, everything below /app/ is masked wholesale (only the bare /app path is kept).
+const PRIVATE_PATHS: RegExp[] = [/(\/app\/)[^?#]+/];
+const URL_PROPS = ["$current_url", "$referrer", "$initial_current_url", "$initial_referrer", "$prev_pageview_pathname", "$pathname", "$session_entry_url", "$session_entry_referrer", "$session_entry_pathname"];
+// Also catch any other URL-ish property posthog-js adds (e.g. $session_entry_*), present or future.
+const isUrlProp = (k: string) => URL_PROPS.includes(k) || /(url|referrer|pathname)$/i.test(k);
+const cleanUrl = (v: unknown) => { if (typeof v !== "string" || !v || v === "$direct") return v; let u = v.split(/[?#]/)[0]!; for (const re of PRIVATE_PATHS) u = u.replace(re, "$1:id"); return u; };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function scrub(e: any) {
+  if (!e?.properties) return e;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const clean = (o: any) => { if (o) for (const k of Object.keys(o)) if (isUrlProp(k)) o[k] = cleanUrl(o[k]); };
+  clean(e.properties); clean(e.properties.$set); clean(e.properties.$set_once); clean(e.$set); clean(e.$set_once);
+  delete e.properties.title; return e;
+}
+
 async function client(): Promise<PH | null> {
   if (!KEY || typeof window === "undefined") return null;
   if (ph) return ph;
@@ -27,7 +44,7 @@ async function client(): Promise<PH | null> {
       capture_pageview: false, capture_pageleave: true, autocapture: false, disable_session_recording: true,
       persistence: "localStorage+cookie", person_profiles: "always", debug, opt_out_useragent_filter: debug,
       // Password manager: nothing that can read the page (heatmaps, dead clicks, exception messages, surveys) is allowed.
-      capture_heatmaps: false, capture_dead_clicks: false, capture_exceptions: false, capture_performance: false, disable_surveys: true,
+      capture_heatmaps: false, capture_dead_clicks: false, capture_exceptions: false, capture_performance: false, disable_surveys: true, before_send: scrub,
     });
     // Every IsDead app shares the yourappisdead.com cookie, and super properties persist in it: clear other apps'
     // leftovers, then set ours (otherwise the hub's product=yourappisdead would ride along on this app's events).
@@ -55,6 +72,6 @@ export function resetIdentity() { void client().then(p => { p?.reset(); p?.regis
 /** Mount once in the root layout: boots the client and sends a $pageview per route change. */
 export function Analytics() {
   const path = usePathname();
-  useEffect(() => { if (!path) return; void client().then(p => { if (!p) return; p.register({ surface: surfaceOf(location.pathname) }); p.capture("$pageview", { $current_url: location.href }); }); }, [path]);
+  useEffect(() => { if (!path) return; void client().then(p => { if (!p) return; p.register({ surface: surfaceOf(location.pathname) }); p.capture("$pageview"); }); }, [path]);
   return null;
 }
