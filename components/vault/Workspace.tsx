@@ -57,7 +57,7 @@ export function Workspace({ uid, demo, guest }: { uid: string; name: string; ema
       <p className="op-nav__foot">Auto-locks after {lockMin} min idle. Encrypted in this browser only.</p>
     </nav>
     <main className="op-main">
-      {pane === "items" && <Items data={data} filter={filter} setFilter={setFilter} onSave={i => { track(dataRef.current.items.some(x => x.id === i.id) ? EVENTS.app_item_edited : EVENTS.app_item_created, { item_kind: i.type }); commit(v => upsert(v, i)); }} onDelete={id => { const k = dataRef.current.items.find(x => x.id === id)?.type; if (k) track(EVENTS.app_item_deleted, { item_kind: k }); commit(v => remove(v, id)); }} onFav={id => commit(v => toggleFav(v, id))} flash={flash} />}
+      {pane === "items" && <Items data={data} filter={filter} setFilter={setFilter} onSave={i => { track(EVENTS.app_item_saved); commit(v => upsert(v, i)); }} onDelete={id => commit(v => remove(v, id))} onFav={id => commit(v => toggleFav(v, id))} flash={flash} />}
       {pane === "audit" && <Audit data={data} open={(i: Item) => { setPane("items"); setFilter({ kind: "all", q: i.title }); }} />}
       {pane === "generator" && <Generator flash={flash} />}
       {pane === "settings" && blob && <Settings blob={blob} getData={() => data} lockMin={lockMin} setLockMin={setLockMin} onErase={() => { eraseBlob(uid); session.current = null; dataRef.current = emptyVault(); setBlob(null); setData(emptyVault()); setPhase("setup"); }} onImport={items => { track(EVENTS.app_logins_imported); commit(v => items.reduce((acc, it) => upsert(acc, it), v)); }} onChanged={(b, s) => { track(EVENTS.app_master_password_changed); session.current = s; saveBlob(uid, b); setBlob(b); }} flash={flash} />}

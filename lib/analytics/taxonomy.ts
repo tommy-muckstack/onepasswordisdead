@@ -10,13 +10,11 @@ export const EVENTS = {
   app_signed_in: "app_signed_in",       // method ("password" | "google")
   app_signed_out: "app_signed_out",
   // ---- vault (privacy: never titles, usernames, URLs, notes, tags, search text, generator options or vault-shape
-  // properties; item_kind is the only item property allowed) ----
+  // properties; items carry none at all) ----
   app_vault_created: "app_vault_created",          // (no properties)
   app_vault_unlocked: "app_vault_unlocked",        // (no properties)
   app_vault_locked: "app_vault_locked",            // auto (bool: idle timer vs. Lock now)
-  app_item_created: "app_item_created",            // item_kind ("login" | "card" | "note")
-  app_item_edited: "app_item_edited",              // item_kind
-  app_item_deleted: "app_item_deleted",            // item_kind
+  app_item_saved: "app_item_saved",                // no properties: created vs edited, deletes and item kinds would add up to a vault's size and shape
   app_password_generated_copied: "app_password_generated_copied", // (no properties)
   app_backup_downloaded: "app_backup_downloaded",  // (no properties)
   app_logins_imported: "app_logins_imported",      // (no properties: no counts)
@@ -28,4 +26,4 @@ export const EVENT_PREFIXES = ["app_", "landing_"] as const;
 /** Super properties every event carries (yourappisdead/ANALYTICS.md §1). */
 export const superProps = (surface: Surface) => ({ product: APP, surface, platform: "web" as const });
 /** Super properties older IsDead taxonomies persisted in the shared yourappisdead.com cookie. Unregistered at boot. */
-export const LEGACY_PROPS = ["app", "app_family", "base_path", "suite_id", "app_id", "schema_version", "source", "site_id", "environment"] as const;
+export const LEGACY_PROPS = ["app", "app_family", "base_path", "suite_id", "app_id", "schema_version", "source", "site_id", "environment", "ads_blocked", "account_type"] as const;

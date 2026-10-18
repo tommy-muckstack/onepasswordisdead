@@ -8,7 +8,7 @@ OnePasswordIsDead is a password manager. Analytics must never be able to describ
 - No item titles, usernames, URLs, notes, tags, TOTP data, search text, file names or emails. Ever.
 - No vault-shape properties: no item counts, tag counts, audit results (weak/reused/breached counts), import counts,
   generator options (length, character sets, word count) or auto-lock settings.
-- The only item property allowed is `item_kind` (`login` | `card` | `note`). Most events carry no properties at all.
+- Item events carry no properties at all (no kind, no create/edit split, no deletes). Most events carry none.
 - Autocapture, session replay, heatmaps, dead-click capture, exception autocapture, performance capture and surveys are
   all off in `lib/analytics/posthog.tsx`.
 - `scrub` (posthog-js `before_send`, `lib/analytics/posthog.tsx`) runs on every event:
@@ -53,7 +53,7 @@ and re-registers the super properties.
 | `app_vault_created` | | `components/vault/Workspace.tsx` |
 | `app_vault_unlocked` | | `Workspace.tsx` |
 | `app_vault_locked` | `auto` (bool: idle timer vs. Lock now) | `Workspace.tsx` |
-| `app_item_created` / `app_item_edited` / `app_item_deleted` | `item_kind` | `Workspace.tsx` |
+| `app_item_saved` | none (no create/edit split, no deletes, no item kind: together those would reveal a vault's size and shape) | `Workspace.tsx` |
 | `app_password_generated_copied` | | `components/vault/Tools.tsx` (Generator) |
 | `app_backup_downloaded` | | `Tools.tsx` (Settings) |
 | `app_logins_imported` | | `Workspace.tsx` |

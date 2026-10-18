@@ -63,10 +63,10 @@ export async function trackNow(event: EventName, props: Props = {}) {
 }
 /** Signed-in users are identified by Firebase uid (shared across the family). Guests and demo sessions never are. */
 export function identify(uid: string, accountType: "firebase" | "guest" | "demo") {
-  void client().then(p => { if (!p) return; if (accountType === "firebase") p.identify(uid, { account_type: accountType }); else p.register({ account_type: accountType }); });
+  void client().then(p => { if (!p) return; p.register({ account_type: accountType }); if (accountType === "firebase") p.identify(uid, { account_type: accountType }); });
 }
 // reset() wipes super properties too, so put this app's back straight away.
-export function resetIdentity() { void client().then(p => { p?.reset(); p?.register(superProps(surfaceOf(location.pathname))); }); }
+export function resetIdentity() { void client().then(p => { p?.reset(); p?.register({ ...superProps(surfaceOf(location.pathname)), env: process.env.NODE_ENV === "production" ? "production" : "development" }); }); }
 /** Mount once in the root layout: boots the client and sends a $pageview per route change. */
 export function Analytics() {
   const path = usePathname();
