@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/Logo";
 import { BP } from "@/lib/basepath";
+import { trackNow, resetIdentity, EVENTS } from "@/lib/analytics";
 import "@/app/appshell.css";
 
 export type ShellItem = { label: string; href: string; icon: string; badge?: string };
@@ -45,7 +46,7 @@ export function AppShell({ user, cfg, children }: { user: { name: string; email:
         <div className="as-right">
           {cfg.right?.map(r => <Link key={r.label} href={r.href} className={"as-btn" + (r.solid ? " solid" : "")}>{r.label}</Link>)}
           <span className="as-me" title={user.guest ? "Guest · sign in to keep your work" : user.demo ? "Demo account" : user.email}>{initial}</span>
-          <form method="post" action={`${BP}/api/session/logout`}><button className="as-out">Sign out</button></form>
+          <form method="post" action={`${BP}/api/session/logout`} onSubmit={e => { e.preventDefault(); const f = e.currentTarget; void trackNow(EVENTS.app_signed_out).then(() => { resetIdentity(); f.submit(); }); }}><button className="as-out">Sign out</button></form>
         </div>
       </header>
       <div className="as-body">{children}</div>
