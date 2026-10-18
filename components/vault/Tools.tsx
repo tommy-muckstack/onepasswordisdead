@@ -4,6 +4,7 @@ import { audit, toCsv, importCsv, type Item, type VaultData } from "@/lib/vault/
 import { breachCount, DEFAULT_GEN, generatePassphrase, generatePassword, passphraseEntropy, passwordEntropy, strength, type GenOptions } from "@/lib/vault/generate";
 import { changePassword, type VaultBlob } from "@/lib/vault/crypto";
 import { CopyButton, StrengthBar } from "./bits";
+import { track, EVENTS } from "@/lib/analytics";
 import { Disclaimer } from "./Gate";
 
 const dl = (name: string, text: string, type = "text/plain") => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); };
@@ -31,7 +32,7 @@ export function Generator({ flash }: { flash: (m: string) => void }) {
   const bits = mode === "password" ? Math.round(passwordEntropy(o)) : Math.round(passphraseEntropy(words));
   return <div className="op-pane" data-testid="generator"><h2>Password generator</h2>
     <div className="op-seg" role="tablist">{(["password", "passphrase"] as const).map(m => <button key={m} role="tab" aria-selected={mode === m} className={mode === m ? "on" : ""} onClick={() => setMode(m)}>{m === "password" ? "Random password" : "Passphrase"}</button>)}</div>
-    <div className="op-out"><code className="op-mono" data-testid="generated">{out}</code><span><button className="op-btn" onClick={make}>Regenerate</button><CopyButton value={out} label="generated password" /></span></div>
+    <div className="op-out"><code className="op-mono" data-testid="generated">{out}</code><span><button className="op-btn" onClick={make}>Regenerate</button><CopyButton value={out} label="generated password" onCopied={() => track(EVENTS.app_password_generated_copied)} /></span></div>
     <StrengthBar pw={out} /><p className="op-muted op-small">{bits} bits of entropy by construction{mode === "passphrase" ? ` (${words} words from a ${Math.round(2 ** (passphraseEntropy(1)))}-word list)` : ""}. Generated with the browser's cryptographic random number generator.</p>
     {mode === "password" ? <div className="op-gen"><label>Length {o.length}<input type="range" min={8} max={64} value={o.length} aria-label="Length" onChange={e => setO({ ...o, length: +e.target.value })} /></label>
       <span className="op-checks">{(["lower", "upper", "digits", "symbols"] as const).map(k => <label key={k} className="op-check"><input type="checkbox" checked={o[k]} onChange={e => setO({ ...o, [k]: e.target.checked })} />{k}</label>)}<label className="op-check"><input type="checkbox" checked={o.avoidAmbiguous} onChange={e => setO({ ...o, avoidAmbiguous: e.target.checked })} />avoid look-alikes (Il1O0)</label></span></div>
@@ -55,7 +56,7 @@ export function Settings({ blob, getData, lockMin, setLockMin, onErase, onImport
       {err && <p className="op-err" role="alert">{err}</p>}<button className="op-btn" disabled={busy || !cur || !np}>{busy ? "Re-encrypting…" : "Change password"}</button></form></section>
     <section className="op-set"><h3>Backup &amp; import</h3>
       <p className="op-muted op-small">The encrypted backup is the same ciphertext stored in this browser. It is useless without your master password. Keep a copy somewhere safe.</p>
-      <div className="op-actions"><button className="op-btn" onClick={() => dl("onepasswordisdead-backup.json", JSON.stringify(blob), "application/json")}>Download encrypted backup</button>
+      <div className="op-actions"><button className="op-btn" onClick={() => { dl("onepasswordisdead-backup.json", JSON.stringify(blob), "application/json"); track(EVENTS.app_backup_downloaded); }}>Download encrypted backup</button>
         <button className="op-btn" onClick={() => { if (confirm("This file contains all your passwords in plain text. Delete it as soon as you're done. Continue?")) dl("onepasswordisdead-export.csv", toCsv(getData()), "text/csv"); }}>Export as CSV (not encrypted)</button>
         <label className="op-btn op-filebtn">Import CSV<input type="file" accept=".csv,text/csv" hidden data-testid="import-csv" onChange={async e => { const f = e.target.files?.[0]; if (!f) return; const items = importCsv(await f.text()); if (!items.length) flash("No logins with a password column found"); else { onImport(items); flash(`Imported ${items.length} ${items.length === 1 ? "login" : "logins"}`); } e.target.value = ""; }} /></label></div></section>
     <section className="op-set"><h3>How it's protected</h3><p className="op-muted op-small">Master password → PBKDF2-HMAC-SHA256 ({blob.iter.toLocaleString()} iterations, random 16-byte salt) → AES-256-GCM key that the browser won't let scripts export. A fresh random IV is used for every save and the header is authenticated. Nothing unencrypted is written to disk or sent to a server. What this does not protect against: malware or a malicious browser extension on your device, a compromised page script on this site's origin, shoulder surfing, and a weak master password.</p></section>
