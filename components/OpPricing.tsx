@@ -17,11 +17,11 @@ const tiles: [string, string][] = [
   ["Cybersecurity compliance", "Enforce strong access policies, secure devices, and meet audit and regulatory needs."],
 ];
 const faqs: [string, string][] = [
-  ["Can I buy Unified Access as a platform or purchase individual products separately?", "Yes. Unified Access can be purchased as an integrated platform, and individual products within the platform can also be purchased separately based on your organization’s needs."],
-  ["Which products are included in the Unified Access platform?", "Unified Access brings together Enterprise Password Manager, Device Trust, SaaS Manager, and Privileged Access in one platform."],
-  ["How is Unified Access different from Enterprise Password Manager?", "Enterprise Password Manager helps organizations protect and manage credentials. Unified Access builds on those capabilities to help govern access across people, AI agents, and machines."],
-  ["Does Unified Access work with existing identity and security tools?", "Yes. Unified Access is designed to work with your existing identity and security environment. Explore available integrations in the 1Password Marketplace, or contact our sales team to discuss your specific tools and requirements."],
-  ["How do I get pricing for Unified Access?", "Unified Access pricing is tailored to your organization’s needs and the capabilities you require. Contact our sales team to discuss your environment and receive a quote."],
+  ["Are these 1PasswordIsDead's prices?", "No. The plans above are 1Password's, shown for comparison. 1PasswordIsDead is free and has no paid plans."],
+  ["What does 1PasswordIsDead include?", "An encrypted vault for logins, cards and secure notes, one-time codes, a password generator, a security audit, CSV import and encrypted backups."],
+  ["Does it have the business features listed above?", "No. There is no SSO, device trust, SaaS management or privileged access. It is a personal vault that lives in one browser."],
+  ["Has it been audited?", "No. It has not been independently audited. Read SECURITY.md on GitHub before storing anything you can't afford to lose."],
+  ["Do I need a credit card?", "No. There is no checkout and no quote to request."],
 ];
 const Plus = () => <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="1.6" fill="none" /></svg>;
 const Minus = () => <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden><path d="M5 12h14" stroke="currentColor" strokeWidth="1.6" fill="none" /></svg>;
@@ -29,15 +29,15 @@ const Faq = ({ i }: { i: number }) => <details open={i === 0}><summary><h3>{faqs
 
 export function OpPricing() {
   return <main className="opp">
-    <section className="opp-hero"><h1>Pricing and plans for</h1><button className="opp-sel" type="button">Enterprise<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden><path d="M14 19l10 10 10-10" stroke="currentColor" strokeWidth="2.4" fill="none" /></svg></button></section>
+    <section className="opp-hero"><h1>1Password&apos;s pricing and plans for</h1><button className="opp-sel" type="button">Enterprise<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden><path d="M14 19l10 10 10-10" stroke="currentColor" strokeWidth="2.4" fill="none" /></svg></button></section>
     <section className="opp-plans"><div>{plans.map(p => <article key={p.n}>
       <header><h2>{p.k}</h2><h3>{p.n}</h3><p>{p.d}</p></header>
-      <Link className="opp-btn" href="/login">Request a quote</Link>
+      <Link className="opp-btn" href="/login">Use the free version</Link>
       <ul>{p.f.map(f => <li key={f}>{f}</li>)}</ul></article>)}</div></section>
     <section className="opp-aws"><h3>Additional ways to buy</h3><div className="opp-aws__c">
-      <div className="opp-aws__l"><div><h3>Purchase 1Password via AWS Marketplace</h3><span className="opp-awsm"><i>available in</i><b>aws</b><em>marketplace</em></span></div><Link className="opp-btn" href="/login">Buy with AWS</Link></div>
+      <div className="opp-aws__l"><div><h3>Purchase 1Password via AWS Marketplace</h3><span className="opp-awsm"><i>available in</i><b>aws</b><em>marketplace</em></span></div><Link className="opp-btn" href="/login">Use the free version</Link></div>
       <div className="opp-aws__r"><div><div>The benefits of Buy with AWS:</div><ul><li>Simplified procurement</li><li>Consolidated billing</li><li>Scalable and flexible deployment</li></ul></div></div></div></section>
-    <section className="opp-unl"><h2>Unleash productivity without compromising security</h2><div>{tiles.map(([t, d]) => <article key={t}><h4>{t}</h4><p>{d}</p></article>)}</div></section>
+    <section className="opp-unl"><h2>What 1Password sells to businesses</h2><div>{tiles.map(([t, d]) => <article key={t}><h4>{t}</h4><p>{d}</p></article>)}</div></section>
     <section className="opp-faq"><h2>Frequently Asked Questions</h2><div><div><Faq i={0} /><Faq i={1} /><Faq i={2} /></div><div><Faq i={3} /><Faq i={4} /></div></div></section>
   </main>;
 }
